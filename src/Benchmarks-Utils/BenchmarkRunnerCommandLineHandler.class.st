@@ -3,7 +3,8 @@ Class {
 	#superclass : #CommandLineHandler,
 	#instVars : [
 		'csvReporter',
-		'stream'
+		'stream',
+		'jsonReporter'
 	],
 	#category : #'Benchmarks-Utils'
 }
@@ -37,6 +38,8 @@ BenchmarkRunnerCommandLineHandler >> activate [
 					
 	reports do: [ :e | self report: e ].
 	
+	self reporter endReport.
+	
 	self closeStream.
 	
 	self exitSuccess
@@ -68,6 +71,14 @@ BenchmarkRunnerCommandLineHandler >> iterations [
 ]
 
 { #category : #activation }
+BenchmarkRunnerCommandLineHandler >> jsonReporter [
+
+	^ jsonReporter ifNil: [ jsonReporter := BenchmarkRunnerReporterJSON new
+														outputStream: self stream;
+														yourself]
+]
+
+{ #category : #activation }
 BenchmarkRunnerCommandLineHandler >> report: aRunner [
 
 	self reporter 
@@ -80,6 +91,9 @@ BenchmarkRunnerCommandLineHandler >> reporter [
 
 	(self hasOption: 'csv')
 		ifTrue: [ ^ self csvReporter ].
+
+	(self hasOption: 'json')
+		ifTrue: [ ^ self jsonReporter ].
 
 	^ SMarkReporter defaultReporter new
 		outputStream: self stream;
