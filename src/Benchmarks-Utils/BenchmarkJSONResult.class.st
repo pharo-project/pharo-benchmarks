@@ -11,7 +11,13 @@ Class {
 { #category : #exporting }
 BenchmarkJSONResult >> forExport [
 	
-	^ { #name -> 'executionTime'. #value -> value. #unit -> unit } asDictionary
+	^ { #name -> 'executionTime'. #value -> value. #unit -> unit. #thresholds -> self percentageThresholds} asDictionary
+]
+
+{ #category : #accessing }
+BenchmarkJSONResult >> percentageThresholds [
+
+	^ { 'method' -> 'percentage'. 'percentage' -> '10' } asDictionary 
 ]
 
 { #category : #accessing }
