@@ -64,7 +64,7 @@ BenchmarkRunnerCommandLineHandler >> iterations [
 
 	^ (self commandLine hasOption: 'iterations')
 		ifTrue: [ (self commandLine optionAt: 'iterations') asInteger ]
-		ifFalse: [ 10 ]
+		ifFalse: [ 1000 ]
 ]
 
 { #category : #activation }
