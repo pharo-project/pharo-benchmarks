@@ -11,7 +11,7 @@ Class {
 { #category : #exporting }
 BenchmarkJSONResult >> forExport [
 	
-	^ { #value -> value. #unit -> unit } asDictionary
+	^ { #name -> 'executionTime'. #value -> value. #unit -> unit } asDictionary
 ]
 
 { #category : #initialization }
