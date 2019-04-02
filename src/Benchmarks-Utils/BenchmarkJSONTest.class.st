@@ -17,6 +17,16 @@ BenchmarkJSONTest >> forExport [
 { #category : #initialization }
 BenchmarkJSONTest >> initializeFrom: anAssociation [ 
 	
+	| average averageResult |
+	
 	name := anAssociation key.
-	results := anAssociation value asArray collect: [ :e | BenchmarkJSONResult new initializeFrom: e; yourself ]
+	
+	average := (anAssociation value sumNumbers: [ :e | (e criteria: #total) total ]) / anAssociation value size.
+	
+	averageResult := BenchmarkJSONResult new
+		value: average;
+		unit: 'ms';
+		yourself.
+		
+	results := { averageResult }.
 ]

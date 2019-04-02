@@ -14,9 +14,22 @@ BenchmarkJSONResult >> forExport [
 	^ { #name -> 'executionTime'. #value -> value. #unit -> unit } asDictionary
 ]
 
-{ #category : #initialization }
-BenchmarkJSONResult >> initializeFrom: aSMarkResult [ 
-	
-	value := aSMarkResult total.
-	unit := 'ms'.
+{ #category : #accessing }
+BenchmarkJSONResult >> unit [
+	^ unit
+]
+
+{ #category : #accessing }
+BenchmarkJSONResult >> unit: anObject [
+	unit := anObject
+]
+
+{ #category : #accessing }
+BenchmarkJSONResult >> value [
+	^ value
+]
+
+{ #category : #accessing }
+BenchmarkJSONResult >> value: anObject [
+	value := anObject
 ]
