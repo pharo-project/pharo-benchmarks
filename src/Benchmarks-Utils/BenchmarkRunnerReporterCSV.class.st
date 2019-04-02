@@ -46,7 +46,7 @@ BenchmarkRunnerReporterCSV >> reportResult: results for: aCriterion of: benchmar
 				ifTrue: [ 0 ] 
 				ifFalse: [ self confidenceVariance: results ].
 	
-	^ { self pharoVersion. self vmVersion. runner suite class name. benchmark. aCriterion. results size. results average. confidenceVariance }
+	^ { self pharoVersion. self vmVersion. runner suite class name. benchmark. aCriterion. results size. results average asFloat. confidenceVariance }
 ]
 
 { #category : #accessing }
