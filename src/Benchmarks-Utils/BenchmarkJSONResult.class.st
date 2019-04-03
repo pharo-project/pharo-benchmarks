@@ -11,13 +11,25 @@ Class {
 { #category : #exporting }
 BenchmarkJSONResult >> forExport [
 	
-	^ { #name -> 'executionTime'. #value -> value. #unit -> unit. #thresholds -> self percentageThresholds} asDictionary
+	^ { #name -> self name. #value -> value. #unit -> unit. #thresholds -> self percentageThresholds} asDictionary
+]
+
+{ #category : #exporting }
+BenchmarkJSONResult >> name [
+
+	^ OSPlatform current family , self platformArchitecture
 ]
 
 { #category : #accessing }
 BenchmarkJSONResult >> percentageThresholds [
 
-	^ {{ 'method' -> 'percentage'. 'percentage' -> '10' } asDictionary }
+	^ {{ 'method' -> 'percentage'. 'percentage' -> 10 } asDictionary }
+]
+
+{ #category : #exporting }
+BenchmarkJSONResult >> platformArchitecture [
+
+	^ (Smalltalk wordSize * 8) asString
 ]
 
 { #category : #accessing }
