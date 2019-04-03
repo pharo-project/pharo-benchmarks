@@ -17,7 +17,7 @@ BenchmarkJSONResult >> forExport [
 { #category : #accessing }
 BenchmarkJSONResult >> percentageThresholds [
 
-	^ { 'method' -> 'percentage'. 'percentage' -> '10' } asDictionary 
+	^ {{ 'method' -> 'percentage'. 'percentage' -> '10' } asDictionary }
 ]
 
 { #category : #accessing }

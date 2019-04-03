@@ -17,6 +17,6 @@ BenchmarkJSONGroup >> forExport [
 { #category : #INITIALIZE }
 BenchmarkJSONGroup >> initializeFrom: aRunner [
 
-	name := aRunner class name.
+	name := aRunner suite class name asString.
 	tests := aRunner results associations collect: [ :e | BenchmarkJSONTest new initializeFrom: e; yourself ].
 ]
