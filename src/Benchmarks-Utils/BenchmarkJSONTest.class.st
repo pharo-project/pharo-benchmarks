@@ -5,7 +5,7 @@ Class {
 		'name',
 		'results'
 	],
-	#category : #'Benchmarks-Utils'
+	#category : #'Benchmarks-Utils-JSON-Output'
 }
 
 { #category : #exporting }

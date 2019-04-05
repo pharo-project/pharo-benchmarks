@@ -1,5 +1,5 @@
 Class {
 	#name : #BenchmarkReport,
 	#superclass : #Object,
-	#category : #'Benchmarks-Utils'
+	#category : #'Benchmarks-Utils-Core'
 }

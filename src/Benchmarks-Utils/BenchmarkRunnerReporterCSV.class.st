@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'csvWriter'
 	],
-	#category : #'Benchmarks-Utils'
+	#category : #'Benchmarks-Utils-CSV-Output'
 }
 
 { #category : #accessing }

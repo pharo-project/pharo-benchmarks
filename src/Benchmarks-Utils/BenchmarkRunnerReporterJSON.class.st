@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'groups'
 	],
-	#category : #'Benchmarks-Utils'
+	#category : #'Benchmarks-Utils-JSON-Output'
 }
 
 { #category : #accessing }

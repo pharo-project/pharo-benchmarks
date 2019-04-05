@@ -66,3 +66,9 @@ MethodCompilingBenchmarks >> benchMethodAccessingAGlobal [
 		compile: 'aMethod
 			^ Object'.
 ]
+
+{ #category : #benchmarking }
+MethodCompilingBenchmarks >> problemSize [
+
+	^ 100
+]

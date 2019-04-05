@@ -7,6 +7,8 @@ Class {
 { #category : #benchmarking }
 ClassCreationBenchmarks >> benchAddingAnInstanceVariableToAClassWithASubclass [
 
+	<problemSize: 4000>
+
 	| instances |
 	self existingClass subclass: #ATestSubClass
 		instanceVariableNames: ''
@@ -37,6 +39,8 @@ ClassCreationBenchmarks >> benchAddingAnInstanceVariableToAClassWithASubclass [
 { #category : #benchmarking }
 ClassCreationBenchmarks >> benchAddingAnInstanceVariableToAClassWithASubclassAndInstances [
 
+	<problemSize: 4000>
+
 	self existingClass subclass: #ATestSubClass
 		instanceVariableNames: ''
 		classVariableNames: ''
@@ -51,6 +55,8 @@ ClassCreationBenchmarks >> benchAddingAnInstanceVariableToAClassWithASubclassAnd
 
 { #category : #benchmarking }
 ClassCreationBenchmarks >> benchAddingAnInstanceVariableToAClassWithoutASubclassAndInstances [
+
+	<problemSize: 4000>
 
 	| instances |
 
@@ -70,6 +76,8 @@ ClassCreationBenchmarks >> benchAddingAnInstanceVariableToAClassWithoutASubclass
 
 { #category : #benchmarking }
 ClassCreationBenchmarks >> benchAddingAnInstanceVariableToAClassWithoutSubclasses [
+
+	<problemSize: 4000>
 
 	Object subclass: self existingClassName
 		instanceVariableNames: 'aVar anotherVar anotherAnotherVar newInstVar'
@@ -106,6 +114,8 @@ ClassCreationBenchmarks >> benchClassUsingATrait [
 { #category : #benchmarking }
 ClassCreationBenchmarks >> benchSimpleClassCreation [
 
+	<problemSize: 4000>
+
 	Object subclass: #ATestClass
 		instanceVariableNames: 'aVar anotherVar anotherAnotherVar'
 		classVariableNames: '' 
@@ -123,4 +133,10 @@ ClassCreationBenchmarks >> benchTraitCreation [
 ClassCreationBenchmarks >> benchTraitCreationUsingOtherTrait [
 
 	Trait named: #ATestTrait uses: self existingTestTrait package: self testPackageName
+]
+
+{ #category : #benchmarking }
+ClassCreationBenchmarks >> problemSize [
+
+	^ 100
 ]

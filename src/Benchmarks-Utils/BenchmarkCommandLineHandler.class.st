@@ -1,27 +1,27 @@
 Class {
-	#name : #BenchmarkRunnerCommandLineHandler,
+	#name : #BenchmarkCommandLineHandler,
 	#superclass : #CommandLineHandler,
 	#instVars : [
 		'csvReporter',
 		'stream',
 		'jsonReporter'
 	],
-	#category : #'Benchmarks-Utils'
+	#category : #'Benchmarks-Utils-Core'
 }
 
 { #category : #accessing }
-BenchmarkRunnerCommandLineHandler class >> commandName [
+BenchmarkCommandLineHandler class >> commandName [
 	^ 'benchmark'
 ]
 
 { #category : #accessing }
-BenchmarkRunnerCommandLineHandler class >> description [
+BenchmarkCommandLineHandler class >> description [
 
 	^ 'Executes the instructed benchmarks'
 ]
 
 { #category : #activation }
-BenchmarkRunnerCommandLineHandler >> activate [
+BenchmarkCommandLineHandler >> activate [
 	| packageExpression packages reports |
 
 	self activateHelp ifTrue: [ ^ self ].
@@ -32,7 +32,7 @@ BenchmarkRunnerCommandLineHandler >> activate [
 	packages := RPackageOrganizer default packages select: [ :e | packageExpression matches: e name ].
 	
 	reports := packages flatCollect: [:aPackage | 
-					(BenchmarkRunner forPackage: aPackage)
+					(BenchmarkPackageRunner forPackage: aPackage)
 						iterations: self iterations;
 						run ].
 					
@@ -46,7 +46,7 @@ BenchmarkRunnerCommandLineHandler >> activate [
 ]
 
 { #category : #activation }
-BenchmarkRunnerCommandLineHandler >> closeStream [
+BenchmarkCommandLineHandler >> closeStream [
 	
 	(self hasOption: 'output')
 		ifTrue: [ stream close ]
@@ -54,7 +54,7 @@ BenchmarkRunnerCommandLineHandler >> closeStream [
 ]
 
 { #category : #activation }
-BenchmarkRunnerCommandLineHandler >> csvReporter [
+BenchmarkCommandLineHandler >> csvReporter [
 
 	^ csvReporter ifNil: [ csvReporter := BenchmarkRunnerReporterCSV new
 														outputStream: self stream;
@@ -63,7 +63,7 @@ BenchmarkRunnerCommandLineHandler >> csvReporter [
 ]
 
 { #category : #activation }
-BenchmarkRunnerCommandLineHandler >> iterations [
+BenchmarkCommandLineHandler >> iterations [
 
 	^ (self commandLine hasOption: 'iterations')
 		ifTrue: [ (self commandLine optionAt: 'iterations') asInteger ]
@@ -71,7 +71,7 @@ BenchmarkRunnerCommandLineHandler >> iterations [
 ]
 
 { #category : #activation }
-BenchmarkRunnerCommandLineHandler >> jsonReporter [
+BenchmarkCommandLineHandler >> jsonReporter [
 
 	^ jsonReporter ifNil: [ jsonReporter := BenchmarkRunnerReporterJSON new
 														outputStream: self stream;
@@ -79,7 +79,7 @@ BenchmarkRunnerCommandLineHandler >> jsonReporter [
 ]
 
 { #category : #activation }
-BenchmarkRunnerCommandLineHandler >> report: aRunner [
+BenchmarkCommandLineHandler >> report: aRunner [
 
 	self reporter 
 		runner: aRunner;
@@ -87,7 +87,7 @@ BenchmarkRunnerCommandLineHandler >> report: aRunner [
 ]
 
 { #category : #activation }
-BenchmarkRunnerCommandLineHandler >> reporter [
+BenchmarkCommandLineHandler >> reporter [
 
 	(self hasOption: 'csv')
 		ifTrue: [ ^ self csvReporter ].
@@ -102,7 +102,7 @@ BenchmarkRunnerCommandLineHandler >> reporter [
 ]
 
 { #category : #activation }
-BenchmarkRunnerCommandLineHandler >> stream [
+BenchmarkCommandLineHandler >> stream [
 	
 	| inner |
 
@@ -118,7 +118,7 @@ BenchmarkRunnerCommandLineHandler >> stream [
 ]
 
 { #category : #activation }
-BenchmarkRunnerCommandLineHandler >> validateParameters [
+BenchmarkCommandLineHandler >> validateParameters [
 	
 	(self commandLine hasArguments)
 		ifFalse: [ ^ self exitFailure: 'Missing regular expression for filtering packages' ]
