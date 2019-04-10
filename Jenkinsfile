@@ -10,7 +10,7 @@ def runBenchmark(platform, arch){
 	    sh "wget -O - get.pharo.org/${arch}/vm80 | bash"
 	    sh "unzip Pharo8.0-SNAPSHOT.build.*.arch.${arch}bit.zip"
 	    sh "./pharo Pharo*.image eval --save \"Metacello new baseline: 'Benchmarks'; repository:'github://tesonep/pharo-benchmarks/src'; load\""
-	    sh "./pharo Pharo*.image benchmark "Benchmarks" --json --output=${platform}${arch}.json --iterations=20"
+	    sh "./pharo Pharo*.image benchmark \"Benchmarks\" --json --output=${platform}${arch}.json --iterations=20"
 
 	    archiveArtifacts '${platform}${arch}.json'
 	    stash '${platform}${arch}.json'
