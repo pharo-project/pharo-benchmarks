@@ -14,7 +14,7 @@ def runBenchmark(platform, arch){
 				sh "./pharo Pharo*.image benchmark \"Benchmarks\" --json --output=${platform}${arch}.json --iterations=5"
 
 				archiveArtifacts "${platform}${arch}.json"
-				stash "${platform}${arch}.json"
+				stash includes: "${platform}${arch}.json", name: "${platform}${arch}"
 			}
 		}
 	}
@@ -27,10 +27,10 @@ runBenchmark('osx', 64)
 
 node('unix'){
     cleanWs()
-    unstash 'unix32.json'
-    unstash 'osx32.json'
-    unstash 'unix64.json'
-    unstash 'osx64.json'
+    unstash 'unix32'
+    unstash 'osx32'
+    unstash 'unix64'
+    unstash 'osx64'
 
     benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
 }
