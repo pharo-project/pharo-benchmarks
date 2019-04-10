@@ -2,21 +2,22 @@ properties([disableConcurrentBuilds()])
 
 def runBenchmark(platform, arch){
 
-	node(platform) {
-	  cleanWs()
+	stage("${platform}${arch}"){
+		node(platform) {
+			cleanWs()
 
-	  timeout(60) {
-	    copyArtifacts filter: "bootstrap-cache/Pharo8.0-SNAPSHOT.build.*.arch.${arch}bit.zip", fingerprintArtifacts: true, flatten: true, projectName: 'Test pending pull request and branch Pipeline/Pharo8.0', selector: lastSuccessful()
-	    sh "wget -O - get.pharo.org/${arch}/vm80 | bash"
-	    sh "unzip Pharo8.0-SNAPSHOT.build.*.arch.${arch}bit.zip"
-	    sh "./pharo Pharo*.image eval --save \"Metacello new baseline: 'Benchmarks'; repository:'github://tesonep/pharo-benchmarks/src'; load\""
-	    sh "./pharo Pharo*.image benchmark \"Benchmarks\" --json --output=${platform}${arch}.json --iterations=20"
+			timeout(60) {
+				copyArtifacts filter: "bootstrap-cache/Pharo8.0-SNAPSHOT.build.*.arch.${arch}bit.zip", fingerprintArtifacts: true, flatten: true, projectName: 'Test pending pull request and branch Pipeline/Pharo8.0', selector: lastSuccessful()
+				sh "wget -O - get.pharo.org/${arch}/vm80 | bash"
+				sh "unzip Pharo8.0-SNAPSHOT.build.*.arch.${arch}bit.zip"
+				sh "./pharo Pharo*.image eval --save \"Metacello new baseline: 'Benchmarks'; repository:'github://tesonep/pharo-benchmarks/src'; load\""
+				sh "./pharo Pharo*.image benchmark \"Benchmarks\" --json --output=${platform}${arch}.json --iterations=20"
 
-	    archiveArtifacts '${platform}${arch}.json'
-	    stash '${platform}${arch}.json'
-	  }
+				archiveArtifacts '${platform}${arch}.json'
+				stash '${platform}${arch}.json'
+			}
+		}
 	}
-
 }
  
 runBenchmark('unix', 32)
