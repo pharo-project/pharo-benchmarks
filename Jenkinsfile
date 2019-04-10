@@ -13,8 +13,8 @@ def runBenchmark(platform, arch){
 				sh "./pharo Pharo*.image eval --save \"Metacello new baseline: 'Benchmarks'; repository:'github://tesonep/pharo-benchmarks/src'; load\""
 				sh "./pharo Pharo*.image benchmark \"Benchmarks\" --json --output=${platform}${arch}.json --iterations=20"
 
-				archiveArtifacts '${platform}${arch}.json'
-				stash '${platform}${arch}.json'
+				archiveArtifacts "${platform}${arch}.json"
+				stash "${platform}${arch}.json"
 			}
 		}
 	}
