@@ -2,9 +2,8 @@ Class {
 	#name : #BenchmarkCommandLineHandler,
 	#superclass : #CommandLineHandler,
 	#instVars : [
-		'csvReporter',
-		'stream',
-		'jsonReporter'
+		'reporters',
+		'testing'
 	],
 	#category : #'Benchmarks-Utils-Core'
 }
@@ -22,7 +21,7 @@ BenchmarkCommandLineHandler class >> description [
 
 { #category : #activation }
 BenchmarkCommandLineHandler >> activate [
-	| packageExpression packages reports |
+	| packageExpression packages smarkRunners previousRun |
 
 	self activateHelp ifTrue: [ ^ self ].
 	self validateParameters.
@@ -31,35 +30,36 @@ BenchmarkCommandLineHandler >> activate [
 
 	packages := RPackageOrganizer default packages select: [ :e | packageExpression matches: e name ].
 	
-	reports := packages flatCollect: [:aPackage | 
+	smarkRunners := packages flatCollect: [:aPackage | 
 					(BenchmarkPackageRunner forPackage: aPackage)
 						iterations: self iterations;
 						run ].
 					
-	reports do: [ :e | self report: e ].
+	previousRun := self loadPreviousRun.
 	
-	self reporter endReport.
+	self reporters do: [ :aReporter | aReporter reportAll: smarkRunners previousRun: previousRun ].
 	
-	self closeStream.
+	self exitSuccess 
 	
-	self exitSuccess
+]
+
+{ #category : #'as yet unclassified' }
+BenchmarkCommandLineHandler >> beTesting [
+
+	testing := true
 ]
 
 { #category : #activation }
-BenchmarkCommandLineHandler >> closeStream [
-	
-	(self hasOption: 'output')
-		ifTrue: [ stream close ]
-		ifFalse: [ Stdio stdout flush ]
+BenchmarkCommandLineHandler >> exitSuccess [
+
+	self isTesting
+		ifFalse: [ super exitSuccess ]
 ]
 
-{ #category : #activation }
-BenchmarkCommandLineHandler >> csvReporter [
+{ #category : #'as yet unclassified' }
+BenchmarkCommandLineHandler >> isTesting [
 
-	^ csvReporter ifNil: [ csvReporter := BenchmarkRunnerReporterCSV new
-														outputStream: self stream;
-														writeHeader;
-														yourself]
+	^ testing ifNil: [ false ]
 ]
 
 { #category : #activation }
@@ -71,56 +71,28 @@ BenchmarkCommandLineHandler >> iterations [
 ]
 
 { #category : #activation }
-BenchmarkCommandLineHandler >> jsonReporter [
+BenchmarkCommandLineHandler >> loadPreviousRun [
 
-	^ jsonReporter ifNil: [ jsonReporter := BenchmarkRunnerReporterJSON new
-														outputStream: self stream;
-														yourself]
+	^ self commandLine
+		optionAt: 'previousRun'
+		ifPresent: [ :v | (v asFileReference) readStreamDo: [:s | STON fromStream: s]  ]
+		ifAbsent: [ nil ]
 ]
 
 { #category : #activation }
-BenchmarkCommandLineHandler >> report: aRunner [
+BenchmarkCommandLineHandler >> reporters [
 
-	self reporter 
-		runner: aRunner;
-		report
-]
-
-{ #category : #activation }
-BenchmarkCommandLineHandler >> reporter [
-
-	(self hasOption: 'csv')
-		ifTrue: [ ^ self csvReporter ].
-
-	(self hasOption: 'json')
-		ifTrue: [ ^ self jsonReporter ].
-
-	^ SMarkReporter defaultReporter new
-		outputStream: self stream;
-		yourself
-
-]
-
-{ #category : #activation }
-BenchmarkCommandLineHandler >> stream [
-	
-	| inner |
-
-	stream ifNotNil: [ ^ stream ].
-
-	inner := (self hasOption: 'output')
-		ifTrue: [ (self optionAt: 'output') asFileReference writeStream ]
-		ifFalse: [ Stdio stdout ].
-			
-	^ stream := ((ZnNewLineWriterStream on: inner)
-							forPlatformLineEnding;
-							yourself).
+	^ reporters ifNil: [ ^ { BenchmarkRunnerDefaultReporter new } ]
 ]
 
 { #category : #activation }
 BenchmarkCommandLineHandler >> validateParameters [
 	
 	(self commandLine hasArguments)
-		ifFalse: [ ^ self exitFailure: 'Missing regular expression for filtering packages' ]
+		ifFalse: [ ^ self exitFailure: 'Missing regular expression for filtering packages' ].
 	
+	reporters := OrderedCollection new.
+	
+	AbstractBenchmarkCommandLineReporter allSubclasses 
+		do: [ :e | e configureFrom: self commandLine andAddTo: reporters ]
 ]

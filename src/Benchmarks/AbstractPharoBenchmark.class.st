@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #benchmarking }
+AbstractPharoBenchmark class >> defaultRunner [
+
+	^ SMarkPragmaRunner 
+]
+
+{ #category : #benchmarking }
 AbstractPharoBenchmark class >> isAbstract [ 
 	
 	^ self name = #AbstractPharoBenchmark
