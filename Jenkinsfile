@@ -43,7 +43,7 @@ def notifyBuild(status){
 	url = env.JOB_URL
 	commit = env.commit
 
-	githubNotify account: 'pharo-project', context: 'continuous-integration/benchmarks', credentialsId: 'pharo-ci', description: message, repo: 'pharo', sha: commit, status: status, targetUrl: url
+	githubNotify account: 'pharo-project', context: 'continuous-integration/benchmarks', credentialsId: 'pharo-ci-token', description: message, repo: 'pharo', sha: commit, status: status, targetUrl: url
 }
  
 runBenchmark('unix', 32)
