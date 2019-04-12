@@ -34,7 +34,7 @@ def runBenchmark(platform, arch){
 
 def notifyBuild(status){
 
-	if(env.isPR){
+	if(env.isPR == true){
 		echo("PR ID:" + env.prID + " of: " + env.originProjectName + " ended in " + status)	
 	}else{
 		echo("Build of: " + env.originProjectName + " ended in " + status)	
@@ -59,6 +59,7 @@ node('unix'){
 		notifyBuild("Success")
 	} catch (e){
 		notifyBuild("Failure")
+		throw e
 	}
 }
 
