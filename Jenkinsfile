@@ -7,7 +7,7 @@ def runBenchmark(platform, arch){
 			cleanWs()
 
 			timeout(60) {
-				copyArtifacts filter: "bootstrap-cache/Pharo8.0-SNAPSHOT.build.*.arch.${arch}bit.zip", fingerprintArtifacts: true, flatten: true, projectName: ${env.originProjectName}, selector: lastSuccessful()
+				copyArtifacts filter: "bootstrap-cache/Pharo8.0-SNAPSHOT.build.*.arch.${arch}bit.zip", fingerprintArtifacts: true, flatten: true, projectName: env.originProjectName, selector: lastSuccessful()
 
 				sh "wget -O - get.pharo.org/${arch}/vm80 | bash"
 				sh "unzip Pharo8.0-SNAPSHOT.build.*.arch.${arch}bit.zip"
