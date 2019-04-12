@@ -40,29 +40,25 @@ def notifyBuild(status){
 		message = "The benchmarks show regressions."
 	}
 
-	env.gitToken = params.gitToken
 	url = env.JOB_URL
 	commit = env.commit
 
-	sh "wget -O - get.pharo.org/80+vm | bash"
-	sh "./pharo Pharo*.image eval --save \"Metacello new baseline: 'Benchmarks'; repository:'github://tesonep/pharo-benchmarks/src'; load\""
-	sh "./pharo Pharo*.image NotifyGithub --commit=${commit} --state=${status} --owner=pharo-project --repository=pharo --description=\"${message}\" --url=${url} --context=continuous-integration/benchmarks"
-
+	githubNotify account: 'pharo-project', context: 'continuous-integration/benchmarks', credentialsId: 'pharo-ci', description: message, repo: 'pharo', sha: commit, status: status, targetUrl: url
 }
  
 runBenchmark('unix', 32)
-runBenchmark('unix', 64)
-runBenchmark('osx', 32)
-runBenchmark('osx', 64)
+//runBenchmark('unix', 64)
+//runBenchmark('osx', 32)
+//runBenchmark('osx', 64)
 
 stage('notification'){
 	node('unix'){
 	
 	    cleanWs()
 	    unstash 'unix32'
-	    unstash 'osx32'
-	    unstash 'unix64'
-	    unstash 'osx64'
+//	    unstash 'osx32'
+//	    unstash 'unix64'
+//	    unstash 'osx64'
 
 		try{
 			benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
