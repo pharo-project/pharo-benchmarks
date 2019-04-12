@@ -34,11 +34,18 @@ def runBenchmark(platform, arch){
 
 def notifyBuild(status){
 
-	if(env.isPR == true){
-		echo("PR ID:" + env.prID + " of: " + env.originProjectName + " ended in " + status)	
+	if(status == 'success'){
+		message = "The benchmarks do not show regressions."
 	}else{
-		echo("Build of: " + env.originProjectName + " ended in " + status)	
+		message = "The benchmarks show regressions."
 	}
+
+	url = env.JOB_URL
+	commit = env.commit
+
+	sh "wget -O - get.pharo.org/80+vm | bash"
+	sh "./pharo Pharo*.image eval --save \"Metacello new baseline: 'Benchmarks'; repository:'github://tesonep/pharo-benchmarks/src'; load\""
+	sh "./pharo Pharo*.image NotifyGithub --commit=${commit} --state=${status} --owner=pharo-project --repository=pharo --description=\"${message}\" --url=${url} --context=continuous-integration/benchmarks"
 
 }
  
@@ -56,9 +63,9 @@ node('unix'){
 
 	try{
 		benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
-		notifyBuild("Success")
+		notifyBuild("success")
 	} catch (e){
-		notifyBuild("Failure")
+		notifyBuild("failure")
 		throw e
 	}
 }
