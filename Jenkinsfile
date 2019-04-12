@@ -40,6 +40,7 @@ def notifyBuild(status){
 		message = "The benchmarks show regressions."
 	}
 
+	env.gitToken = params.gitToken
 	url = env.JOB_URL
 	commit = env.commit
 
@@ -54,21 +55,23 @@ runBenchmark('unix', 64)
 runBenchmark('osx', 32)
 runBenchmark('osx', 64)
 
-node('unix'){
-    cleanWs()
-    unstash 'unix32'
-    unstash 'osx32'
-    unstash 'unix64'
-    unstash 'osx64'
+stage('notification'){
+	node('unix'){
+	
+	    cleanWs()
+	    unstash 'unix32'
+	    unstash 'osx32'
+	    unstash 'unix64'
+	    unstash 'osx64'
 
-	try{
-		benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
-		notifyBuild("success")
-	} catch (e){
-		notifyBuild("failure")
-		throw e
+		try{
+			benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
+			notifyBuild("success")
+		} catch (e){
+			notifyBuild("failure")
+			throw e
+		}
 	}
 }
-
 
 
