@@ -16,7 +16,7 @@ def runBenchmark(platform, arch){
 				sh "unzip Pharo8.0-SNAPSHOT.build.*.arch.${arch}bit.zip"
 				sh "./pharo Pharo*.image eval --save \"Metacello new baseline: 'Benchmarks'; repository:'github://tesonep/pharo-benchmarks/src'; load\""
 				
-				sh "./pharo Pharo*.image benchmark \"Benchmarks\" --full-json=${platform}${arch}.json --ston=${platform}${arch}.ston --iterations=5 --previousRun=baseline-${platform}${arch}.ston"
+				sh "./pharo Pharo*.image benchmark \"Benchmarks\" --full-json=${platform}${arch}.json --ston=${platform}${arch}.ston --iterations=2 --previousRun=baseline-${platform}${arch}.ston"
 
 				if(env.isPR == false){
 					shell "cp ${platform}${arch}.ston baseline-${platform}${arch}.ston"
