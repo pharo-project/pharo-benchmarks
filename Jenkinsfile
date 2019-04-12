@@ -34,7 +34,7 @@ def runBenchmark(platform, arch){
 
 def notifyBuild(status){
 
-	if(status == 'success'){
+	if(status == 'SUCCESS'){
 		message = "The benchmarks do not show regressions."
 	}else{
 		message = "The benchmarks show regressions."
@@ -62,9 +62,9 @@ stage('notification'){
 
 		try{
 			benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
-			notifyBuild("success")
+			notifyBuild("SUCCESS")
 		} catch (e){
-			notifyBuild("failure")
+			notifyBuild("FAILURE")
 			throw e
 		}
 	}
