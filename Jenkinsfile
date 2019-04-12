@@ -47,6 +47,7 @@ def notifyBuild(){
 		message = "The benchmarks do not show regressions."
 	}else{
 		message = "The benchmarks show regressions."
+		status = 'FAILURE'
 	}
 
 	url = env.JOB_URL
