@@ -18,7 +18,7 @@ def runBenchmark(platform, arch){
 				
 				sh "./pharo Pharo*.image benchmark \"Benchmarks\" --full-json=${platform}${arch}.json --ston=${platform}${arch}.ston --iterations=5 --previousRun=baseline-${platform}${arch}.ston"
 
-				if(${env.isPR} == false){
+				if(env.isPR == false){
 					shell "cp ${platform}${arch}.ston baseline-${platform}${arch}.ston"
 				}
 
@@ -30,6 +30,16 @@ def runBenchmark(platform, arch){
 			}
 		}
 	}
+}
+
+def notifyBuild(status){
+
+	if(env.isPR){
+		echo("PR ID:" + env.prID + " of: " + env.originProjectName + " ended in " + status)	
+	}else{
+		echo("Build of: " + env.originProjectName + " ended in " + status)	
+	}
+
 }
  
 runBenchmark('unix', 32)
@@ -44,7 +54,12 @@ node('unix'){
     unstash 'unix64'
     unstash 'osx64'
 
-    benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
+	try{
+		benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
+		notifyBuild("Success")
+	} catch (e){
+		notifyBuild("Failure")
+	}
 }
 
 
