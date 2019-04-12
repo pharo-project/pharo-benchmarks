@@ -75,7 +75,12 @@ BenchmarkCommandLineHandler >> loadPreviousRun [
 
 	^ self commandLine
 		optionAt: 'previousRun'
-		ifPresent: [ :v | (v asFileReference) readStreamDo: [:s | STON fromStream: s]  ]
+		ifPresent: [ :v | | fileReference |
+			fileReference := v asFileReference.
+			
+			fileReference exists 
+				ifTrue: [fileReference readStreamDo: [:s | STON fromStream: s]]
+				ifFalse: [ nil ]]
 		ifAbsent: [ nil ]
 ]
 
