@@ -19,7 +19,7 @@ def runBenchmark(platform, arch){
 				sh "./pharo Pharo*.image benchmark \"Benchmarks\" --full-json=${platform}${arch}.json --ston=${platform}${arch}.ston --iterations=2 --previousRun=baseline-${platform}${arch}.ston"
 
 				if(!params.isPR){
-					shell "cp ${platform}${arch}.ston baseline-${platform}${arch}.ston"
+					sh "cp ${platform}${arch}.ston baseline-${platform}${arch}.ston"
 				}
 
 				archiveArtifacts "${platform}${arch}.json"
