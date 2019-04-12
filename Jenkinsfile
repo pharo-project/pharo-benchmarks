@@ -6,14 +6,21 @@ def runBenchmark(platform, arch){
 		node(platform) {
 			cleanWs()
 
+			if(params.isPR){
+				zipFile = "Pharo*-PR-${arch}bit-*.zip"
+			}else{
+				zipFile = "Pharo*-SNAPSHOT.build.*.arch.${arch}bit.zip"
+			}
+
+
 			timeout(60) {
-				copyArtifacts filter: "bootstrap-cache/Pharo*-SNAPSHOT.build.*.arch.${arch}bit.zip", fingerprintArtifacts: true, flatten: true, projectName: env.originProjectName, selector: lastSuccessful()
+				copyArtifacts filter: "bootstrap-cache/${zipFile}", fingerprintArtifacts: true, flatten: true, projectName: env.originProjectName, selector: lastSuccessful()
 
 				copyArtifacts filter: "baseline-${platform}${arch}.ston", fingerprintArtifacts: true, optional: true, projectName: 'pharo-benchmarks', selector: lastSuccessful()
 				
 
 				sh "wget -O - get.pharo.org/${arch}/vm80 | bash"
-				sh "unzip Pharo*-SNAPSHOT.build.*.arch.${arch}bit.zip"
+				sh "unzip ${zipFile}"
 				sh "./pharo Pharo*.image eval --save \"Metacello new baseline: 'Benchmarks'; repository:'github://tesonep/pharo-benchmarks/src'; load\""
 				
 				sh "./pharo Pharo*.image benchmark \"Benchmarks\" --full-json=${platform}${arch}.json --ston=${platform}${arch}.ston --iterations=10 --previousRun=baseline-${platform}${arch}.ston"
