@@ -39,7 +39,9 @@ def runBenchmark(platform, arch){
 	}
 }
 
-def notifyBuild(status){
+def notifyBuild(){
+
+	status = currentBuild.currentResult
 
 	if(status == 'SUCCESS'){
 		message = "The benchmarks do not show regressions."
@@ -69,9 +71,9 @@ stage('notification'){
 
 		try{
 			benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
-			notifyBuild("SUCCESS")
+			notifyBuild()
 		} catch (e){
-			notifyBuild("FAILURE")
+			notifyBuild()
 			throw e
 		}
 	}
