@@ -16,7 +16,7 @@ def runBenchmark(platform, arch){
 				sh "unzip Pharo8.0-SNAPSHOT.build.*.arch.${arch}bit.zip"
 				sh "./pharo Pharo*.image eval --save \"Metacello new baseline: 'Benchmarks'; repository:'github://tesonep/pharo-benchmarks/src'; load\""
 				
-				sh "./pharo Pharo*.image benchmark \"Benchmarks\" --full-json=${platform}${arch}.json --ston=${platform}${arch}.ston --iterations=2 --previousRun=baseline-${platform}${arch}.ston"
+				sh "./pharo Pharo*.image benchmark \"Benchmarks\" --full-json=${platform}${arch}.json --ston=${platform}${arch}.ston --iterations=10 --previousRun=baseline-${platform}${arch}.ston"
 
 				if(!params.isPR){
 					sh "cp ${platform}${arch}.ston baseline-${platform}${arch}.ston"
@@ -47,18 +47,18 @@ def notifyBuild(status){
 }
  
 runBenchmark('unix', 32)
-//runBenchmark('unix', 64)
-//runBenchmark('osx', 32)
-//runBenchmark('osx', 64)
+runBenchmark('unix', 64)
+runBenchmark('osx', 32)
+runBenchmark('osx', 64)
 
 stage('notification'){
 	node('unix'){
 	
 	    cleanWs()
 	    unstash 'unix32'
-//	    unstash 'osx32'
-//	    unstash 'unix64'
-//	    unstash 'osx64'
+	    unstash 'osx32'
+	    unstash 'unix64'
+	    unstash 'osx64'
 
 		try{
 			benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
