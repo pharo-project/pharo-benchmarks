@@ -57,35 +57,44 @@ def notifyBuild(status){
 
 	githubNotify account: 'pharo-project', context: 'continuous-integration/benchmarks', credentialsId: 'pharo-ci-token', description: message, repo: 'pharo', sha: commit, status: status, targetUrl: url
 }
- 
-stage('starting'){
-	node('unix'){
-		notifyBuild('PENDING')
-	}
-} 
 
-runBenchmark('unix', 32)
-runBenchmark('unix', 64)
-runBenchmark('osx', 32)
-runBenchmark('osx', 64)
+try{
+	stage('starting'){
+		node('unix'){
+			notifyBuild('PENDING')
+		}
+	} 
 
-stage('notification'){
-	node('unix'){
+	runBenchmark('unix', 32)
+	runBenchmark('unix', 64)
+	runBenchmark('osx', 32)
+	runBenchmark('osx', 64)
+
+	stage('notification'){
+		node('unix'){
 	
-	    cleanWs()
-	    unstash 'unix32'
-	    unstash 'osx32'
-	    unstash 'unix64'
-	    unstash 'osx64'
+		    cleanWs()
+		    unstash 'unix32'
+		    unstash 'osx32'
+		    unstash 'unix64'
+		    unstash 'osx64'
 
-		try{
-			benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
-			notifyBuild(currentBuild.currentResult)
-		} catch (e){
-			notifyBuild(currentBuild.currentResult)
-			throw e
+			try{
+				benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
+				notifyBuild(currentBuild.currentResult)
+			} catch (e){
+				notifyBuild(currentBuild.currentResult)
+				throw e
+			}
 		}
 	}
+} catch(e){
+	stage('notification'){
+		node('unix'){
+			notifyBuild('FAILURE')
+		}
+	}
+	throw e
 }
 
 
