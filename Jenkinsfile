@@ -14,7 +14,7 @@ def runBenchmark(platform, arch){
 
 
 			timeout(60) {
-				copyArtifacts filter: "bootstrap-cache/${zipFile}", fingerprintArtifacts: true, flatten: true, projectName: env.originProjectName, selector: lastSuccessful()
+				copyArtifacts filter: "bootstrap-cache/${zipFile}", fingerprintArtifacts: true, flatten: true, projectName: env.originProjectName, selector: upstream(fallbackToLastSuccessful: true)
 
 				copyArtifacts filter: "baseline-${platform}${arch}.ston", fingerprintArtifacts: true, optional: true, projectName: 'pharo-benchmarks', selector: lastSuccessful()
 				
@@ -39,15 +39,17 @@ def runBenchmark(platform, arch){
 	}
 }
 
-def notifyBuild(){
-
-	status = currentBuild.currentResult
+def notifyBuild(status){
 
 	if(status == 'SUCCESS'){
 		message = "The benchmarks do not show regressions."
 	}else{
-		message = "The benchmarks show regressions."
-		status = 'FAILURE'
+		if(status == 'PENDING'){
+			message = "The benchmarks are running."
+		}else{
+			message = "The benchmarks show regressions."
+			status = 'FAILURE'
+		}
 	}
 
 	url = env.JOB_URL
@@ -56,6 +58,12 @@ def notifyBuild(){
 	githubNotify account: 'pharo-project', context: 'continuous-integration/benchmarks', credentialsId: 'pharo-ci-token', description: message, repo: 'pharo', sha: commit, status: status, targetUrl: url
 }
  
+stage('starting'){
+	node('unix'){
+		notifyBuild('PENDING')
+	}
+} 
+
 runBenchmark('unix', 32)
 runBenchmark('unix', 64)
 runBenchmark('osx', 32)
@@ -72,9 +80,9 @@ stage('notification'){
 
 		try{
 			benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
-			notifyBuild()
+			notifyBuild(currentBuild.currentResult)
 		} catch (e){
-			notifyBuild()
+			notifyBuild(currentBuild.currentResult)
 			throw e
 		}
 	}
