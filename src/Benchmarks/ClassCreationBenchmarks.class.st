@@ -9,7 +9,7 @@ ClassCreationBenchmarks >> benchAddingAnInstanceVariableToAClassWithASubclass [
 
 	<problemSize: 4000>
 
-	| instances |
+	| instances subclass |
 	self existingClass subclass: #ATestSubClass
 		instanceVariableNames: ''
 		classVariableNames: ''
@@ -22,8 +22,10 @@ ClassCreationBenchmarks >> benchAddingAnInstanceVariableToAClassWithASubclass [
 			instVarAt: 3 put: 3;
 			yourself].
 		
+	subclass := self class environment classNamed: #ATestSubClass.	
+		
 	instances := instances , ((1 to: 500) collect: [ :i | 
-		(self class environment classNamed: #ATestSubClass) new
+		subclass new
 			instVarAt: 1 put: 1;
 			instVarAt: 2 put: 2;
 			instVarAt: 3 put: 3;

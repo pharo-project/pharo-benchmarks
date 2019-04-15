@@ -1,6 +1,9 @@
 Class {
 	#name : #AbstractPharoBenchmark,
 	#superclass : #SMarkSuite,
+	#instVars : [
+		'existingClass'
+	],
 	#category : #Benchmarks
 }
 
@@ -30,11 +33,11 @@ AbstractPharoBenchmark class >> run [
 { #category : #benchmarking }
 AbstractPharoBenchmark >> existingClass [
 
-	^ self class environment at: self existingClassName ifAbsent: [ 	
-			Object subclass: self existingClassName
+	^ existingClass ifNil: [ existingClass := Object subclass: self existingClassName
 				instanceVariableNames: 'aVar anotherVar anotherAnotherVar'
 				classVariableNames: '' 
 				package: self testPackageName ]
+
 ]
 
 { #category : #benchmarking }
@@ -65,6 +68,8 @@ AbstractPharoBenchmark >> existingTestTrait [
 { #category : #benchmarking }
 AbstractPharoBenchmark >> tearDown [ 
 	
+	super tearDown.
+	existingClass := nil.
 	(self testPackageName asPackageIfAbsent: [ ^ self ]) removeFromSystem. 
 ]
 
