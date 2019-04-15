@@ -19,6 +19,8 @@ MethodCompilingBenchmarks >> benchCompileAMethodAndModifyIt [
 { #category : #benchmarking }
 MethodCompilingBenchmarks >> benchCompileAMethodInAClassUsingATrait [
 
+	<problemSize: 1000>
+
 	self existingClassUsingATrait
 		compile: 'aMethod
 			^ 42'
@@ -34,6 +36,8 @@ MethodCompilingBenchmarks >> benchCompileAMethodInATraitNotUsed [
 
 { #category : #benchmarking }
 MethodCompilingBenchmarks >> benchCompileAMethodInATraitUsed [
+
+	<problemSize: 1000>
 
 	"This force the creation of the class using the trait"
 	self existingClassUsingATrait.

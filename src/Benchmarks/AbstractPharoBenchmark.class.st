@@ -2,7 +2,9 @@ Class {
 	#name : #AbstractPharoBenchmark,
 	#superclass : #SMarkSuite,
 	#instVars : [
-		'existingClass'
+		'existingClass',
+		'existingClassUsingATrait',
+		'existingTestTrait'
 	],
 	#category : #Benchmarks
 }
@@ -49,8 +51,8 @@ AbstractPharoBenchmark >> existingClassName [
 { #category : #benchmarking }
 AbstractPharoBenchmark >> existingClassUsingATrait [
 
-	^ self class environment at: self existingClassName ifAbsent: [ 	
-			Object subclass: #ExistingClassUsingATrait
+	^ existingClassUsingATrait ifNil: [ 	
+			existingClassUsingATrait := Object subclass: #ExistingClassUsingATrait
 				uses: self existingTestTrait
 				instanceVariableNames: 'aVar anotherVar anotherAnotherVar'
 				classVariableNames: '' 
@@ -60,9 +62,11 @@ AbstractPharoBenchmark >> existingClassUsingATrait [
 { #category : #benchmarking }
 AbstractPharoBenchmark >> existingTestTrait [
 
-	^ self class environment 
-		at: #AExistingTestTrait 
-		ifAbsent: [ 	Trait named: #AExistingTestTrait uses: {} package: self testPackageName ]
+	^ existingTestTrait
+		ifNil: [ existingTestTrait := Trait
+				named: #AExistingTestTrait
+				uses: {}
+				package: self testPackageName ]
 ]
 
 { #category : #benchmarking }
