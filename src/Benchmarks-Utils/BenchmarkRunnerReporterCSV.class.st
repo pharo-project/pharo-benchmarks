@@ -61,8 +61,9 @@ BenchmarkRunnerReporterCSV >> reportAll: smarkRunners previousRun: previousRun [
 	csvWriter := NeoCSVWriter on: stream.
 	
 	self writeHeader: csvWriter.
-	smarkRunners do: [ :aRunner | self report: aRunner on: csvWriter ]
+	smarkRunners do: [ :aRunner | self report: aRunner on: csvWriter ].
 	
+	csvWriter close.
 ]
 
 { #category : #accessing }
