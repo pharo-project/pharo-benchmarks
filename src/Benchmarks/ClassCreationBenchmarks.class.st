@@ -79,7 +79,7 @@ ClassCreationBenchmarks >> benchAddingAnInstanceVariableToAClassWithoutASubclass
 { #category : #benchmarking }
 ClassCreationBenchmarks >> benchAddingAnInstanceVariableToAClassWithoutSubclasses [
 
-	<problemSize: 4000>
+	<problemSize: 20000>
 
 	Object subclass: self existingClassName
 		instanceVariableNames: 'aVar anotherVar anotherAnotherVar newInstVar'
