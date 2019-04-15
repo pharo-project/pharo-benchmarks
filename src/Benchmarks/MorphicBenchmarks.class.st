@@ -1,6 +1,6 @@
 Class {
 	#name : #MorphicBenchmarks,
-	#superclass : #AbstractPharoBenchmark,
+	#superclass : #AbstractClassBenchmarks,
 	#category : #Benchmarks
 }
 

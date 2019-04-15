@@ -1,39 +1,16 @@
 Class {
-	#name : #AbstractPharoBenchmark,
-	#superclass : #SMarkSuite,
+	#name : #AbstractClassBenchmarks,
+	#superclass : #AbstractPharoBenchmarks,
 	#instVars : [
+		'existingTestTrait',
 		'existingClass',
-		'existingClassUsingATrait',
-		'existingTestTrait'
+		'existingClassUsingATrait'
 	],
 	#category : #Benchmarks
 }
 
 { #category : #benchmarking }
-AbstractPharoBenchmark class >> defaultRunner [
-
-	^ SMarkPragmaRunner 
-]
-
-{ #category : #benchmarking }
-AbstractPharoBenchmark class >> isAbstract [ 
-	
-	^ self name = #AbstractPharoBenchmark
-]
-
-{ #category : #benchmarking }
-AbstractPharoBenchmark class >> iterations [
-	^ 10
-]
-
-{ #category : #benchmarking }
-AbstractPharoBenchmark class >> run [ 
-
-	^ self run: self iterations
-]
-
-{ #category : #benchmarking }
-AbstractPharoBenchmark >> existingClass [
+AbstractClassBenchmarks >> existingClass [
 
 	^ existingClass ifNil: [ existingClass := Object subclass: self existingClassName
 				instanceVariableNames: 'aVar anotherVar anotherAnotherVar'
@@ -43,13 +20,13 @@ AbstractPharoBenchmark >> existingClass [
 ]
 
 { #category : #benchmarking }
-AbstractPharoBenchmark >> existingClassName [
+AbstractClassBenchmarks >> existingClassName [
 
 	^ #AnExistingTestClass
 ]
 
 { #category : #benchmarking }
-AbstractPharoBenchmark >> existingClassUsingATrait [
+AbstractClassBenchmarks >> existingClassUsingATrait [
 
 	^ existingClassUsingATrait ifNil: [ 	
 			existingClassUsingATrait := Object subclass: #ExistingClassUsingATrait
@@ -60,7 +37,7 @@ AbstractPharoBenchmark >> existingClassUsingATrait [
 ]
 
 { #category : #benchmarking }
-AbstractPharoBenchmark >> existingTestTrait [
+AbstractClassBenchmarks >> existingTestTrait [
 
 	^ existingTestTrait
 		ifNil: [ existingTestTrait := Trait
@@ -70,7 +47,7 @@ AbstractPharoBenchmark >> existingTestTrait [
 ]
 
 { #category : #benchmarking }
-AbstractPharoBenchmark >> tearDown [ 
+AbstractClassBenchmarks >> tearDown [ 
 	
 	super tearDown.
 	existingClass := nil.
@@ -78,7 +55,7 @@ AbstractPharoBenchmark >> tearDown [
 ]
 
 { #category : #benchmarking }
-AbstractPharoBenchmark >> testPackageName [
+AbstractClassBenchmarks >> testPackageName [
 
 	^ 'Benchmark-Test-Package'
 ]

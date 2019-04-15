@@ -1,6 +1,6 @@
 Class {
 	#name : #ClassCreationBenchmarks,
-	#superclass : #AbstractPharoBenchmark,
+	#superclass : #AbstractClassBenchmarks,
 	#category : #Benchmarks
 }
 
