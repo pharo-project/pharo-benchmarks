@@ -17,9 +17,21 @@ GTSpotterBenchmarks >> benchGTPackageQuery [
 ]
 
 { #category : #benchmarking }
+GTSpotterBenchmarks >> benchInvalidSelectorQuery [
+	<problemSize: 2>
+	self executeQuery: 'sel ect:'
+]
+
+{ #category : #benchmarking }
 GTSpotterBenchmarks >> benchMessageQuery [
 	<problemSize: 2>
 	self executeQuery: 'asClass'
+]
+
+{ #category : #benchmarking }
+GTSpotterBenchmarks >> benchSelectQuery [
+	<problemSize: 2>
+	self executeQuery: 'select:'
 ]
 
 { #category : #benchmarking }
