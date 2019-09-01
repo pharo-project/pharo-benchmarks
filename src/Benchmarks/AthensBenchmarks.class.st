@@ -5,6 +5,35 @@ Class {
 }
 
 { #category : #benchmarking }
+AthensBenchmarks >> benchPaintIcons [
+
+	<problemSize:5000>
+
+	| icons width height surf |
+	icons := Smalltalk ui icons icons values first:10.
+
+	width := icons sum: #width.
+	height:= icons max: #height.
+
+	surf := AthensCairoSurface extent: width@height.
+	surf drawDuring: [ :aCanvas | |shape delta end |
+
+		delta := 0@0.
+		
+		icons do: [ :icon |
+			shape := aCanvas createRectanglePath: (0@0 corner: (icon width @icon height)).
+		
+		 	aCanvas pathTransform translateBy: delta.
+			aCanvas setShape: shape.
+			aCanvas setPaint: icon.
+			aCanvas draw.
+
+			delta := icon width@0.
+		]
+	].
+]
+
+{ #category : #benchmarking }
 AthensBenchmarks >> benchStrokePainting [
 
 	<problemSize: 500>
@@ -72,5 +101,6 @@ AthensBenchmarks >> benchStrokePaintingUsingIcons [
 		can setShape: p.
 		can setPaint: Color white.
 		can draw.
-		can setStrokePaint: (Smalltalk ui icons iconNamed:#calendar) ]
+		can setStrokePaint: (Smalltalk ui icons iconNamed:#calendar).
+		can draw ]
 ]
