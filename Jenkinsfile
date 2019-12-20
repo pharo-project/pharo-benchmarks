@@ -47,8 +47,13 @@ def notifyBuild(status){
 		if(status == 'PENDING'){
 			message = "The benchmarks are running."
 		}else{
-			message = "The benchmarks show regressions."
-			status = 'FAILURE'
+			if(status == 'PR'){
+				status = 'SUCESS'
+				message = "Pull Requests are not analyzed."
+			}else{
+				message = "The benchmarks show regressions."
+				status = 'FAILURE'
+			}
 		}
 	}
 
@@ -59,35 +64,44 @@ def notifyBuild(status){
 }
 
 try{
-	stage('starting'){
-		node('unix'){
-			notifyBuild('PENDING')
-		}
-	} 
-
-	runBenchmark('unix', 32)
-	runBenchmark('unix', 64)
-	runBenchmark('osx', 32)
-	runBenchmark('osx', 64)
-
-	stage('notification'){
-		node('unix'){
 	
-		    cleanWs()
-		    unstash 'unix32'
-		    unstash 'osx32'
-		    unstash 'unix64'
-		    unstash 'osx64'
-
-			try{
-				benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
-				notifyBuild(currentBuild.currentResult)
-			} catch (e){
-				notifyBuild(currentBuild.currentResult)
-				throw e
+	if(!params.isPR){
+		stage('starting'){
+			node('unix'){
+				notifyBuild('PENDING')
 			}
-		}
-	}
+		} 
+
+		runBenchmark('unix', 32)
+		runBenchmark('unix', 64)
+		runBenchmark('osx', 32)
+		runBenchmark('osx', 64)
+
+		stage('notification'){
+			node('unix'){
+	
+			    cleanWs()
+			    unstash 'unix32'
+			    unstash 'osx32'
+			    unstash 'unix64'
+			    unstash 'osx64'
+
+				try{
+					benchmark altInputSchema: '', altInputSchemaLocation: '', inputLocation: '*.json', schemaSelection: 'defaultSchema', truncateStrings: true    
+					notifyBuild(currentBuild.currentResult)
+				} catch (e){
+					notifyBuild(currentBuild.currentResult)
+					throw e
+				}
+			}
+		}    
+	}else{
+		stage('starting'){
+			node('unix'){
+				notifyBuild('PR')
+			}
+		} 		
+	} 
 } catch(e){
 	stage('notification'){
 		node('unix'){
