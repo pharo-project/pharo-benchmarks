@@ -48,7 +48,7 @@ def notifyBuild(status){
 			message = "The benchmarks are running."
 		}else{
 			if(status == 'PR'){
-				status = 'SUCESS'
+				status = 'SUCCESS'
 				message = "Pull Requests are not analyzed."
 			}else{
 				message = "The benchmarks show regressions."
