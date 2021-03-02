@@ -32,8 +32,7 @@ SMarkPragmaRunner >> timedBenchmarkExecution: aSelector [
 	
 	timer start.
 	
-	1 to: problemSize do: [ :iter |
-		resultCollection add: (suite perform: aSelector)].
+	resultCollection add: (suite perform: aSelector).
 	timer stop.
 	suite processResult: resultCollection withTimer: timer.
 	

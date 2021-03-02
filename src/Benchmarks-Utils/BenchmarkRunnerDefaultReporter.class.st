@@ -22,3 +22,9 @@ BenchmarkRunnerDefaultReporter >> reportAll: smarkRunners previousRun: previousR
 	self stream flush.
 		
 ]
+
+{ #category : #accessing }
+BenchmarkRunnerDefaultReporter >> stream: aStream [ 
+	
+	stream := aStream
+]
