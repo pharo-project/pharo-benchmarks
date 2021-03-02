@@ -14,8 +14,8 @@ BaselineOfBenchmarks >> baseline: spec [
 			configuration: 'SMark' 
 			with: [ 
 				spec
-					versionString: '1.0.2';
-					repository: 'http://smalltalkhub.com/mc/StefanMarr/SMark/main' ].		
+					versionString: 'v1.0.4';
+					repository: 'github://smarr/SMark' ].
 
 		spec 
 			baseline: 'NeoCSV' 
