@@ -11,11 +11,11 @@ BaselineOfBenchmarks >> baseline: spec [
 	spec for: #common do: [ 
 		
 		spec 
-			configuration: 'SMark' 
+			baseline: 'SMark' 
 			with: [ 
 				spec
-					versionString: 'v1.0.4';
-					repository: 'github://smarr/SMark' ].
+					versionString: '9b86d50';
+					repository: 'github://guillep/SMark' ].
 
 		spec 
 			baseline: 'NeoCSV' 
