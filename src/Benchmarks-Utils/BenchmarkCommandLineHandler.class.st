@@ -21,23 +21,53 @@ BenchmarkCommandLineHandler class >> description [
 
 { #category : #activation }
 BenchmarkCommandLineHandler >> activate [
-	| packageExpression packages smarkRunners previousRun |
+	| className selector class runner suite incrementalGCCountBefore incrementalGCTimeBefore fullGCCountBefore fullGCTimeBefore result incrementalGCCountAfter incrementalGCTimeAfter fullGCCountAfter fullGCTimeAfter output outputFile iterations problemSize outputFileName |
 
 	self activateHelp ifTrue: [ ^ self ].
-	self validateParameters.
 	
-	packageExpression := (self argumentAt: 1) asRegex.	
+	className := self argumentAt: 1.
+	selector := self argumentAt: 2.
+	iterations := self optionAt: 'iterations'
+		ifPresent: [ :iterationString | iterationString asNumber ]
+		ifAbsent: [ nil ].
+	problemSize := self optionAt: 'problemSize'
+		ifPresent: [ :problemSizeString | problemSizeString asNumber ]
+		ifAbsent: [ nil ].
+	outputFileName := self optionAt: 'out' ifAbsent: [ 'out.json' ].
+	
+	class := Smalltalk globals at: className.
+	
+	runner := SMarkRunner new.
+	suite := class new.
+	suite runOnly: selector.
 
-	packages := RPackageOrganizer default packages select: [ :e | packageExpression matches: e name ].
+	runner suite: suite.
+	runner iterations: iterations.
+	runner problemSize: problemSize.
+
+	incrementalGCCountBefore := Smalltalk vm incrementalGCCount.
+	incrementalGCTimeBefore := Smalltalk vm totalIncrementalGCTime.
+	fullGCCountBefore := Smalltalk vm fullGCCount.
+	fullGCTimeBefore := Smalltalk vm totalFullGCTime.
+		result := runner execute.
+	incrementalGCCountAfter := Smalltalk vm incrementalGCCount.
+	incrementalGCTimeAfter := Smalltalk vm totalIncrementalGCTime.
+	fullGCCountAfter := Smalltalk vm fullGCCount.
+	fullGCTimeAfter := Smalltalk vm totalFullGCTime.
 	
-	smarkRunners := packages flatCollect: [:aPackage | 
-					(BenchmarkPackageRunner forPackage: aPackage)
-						iterations: self iterations;
-						run ].
-					
-	previousRun := self loadPreviousRun.
+	output := Dictionary new.
+	output at: 'results' put: (result anyOne collect: #total) asArray.
+	output at: 'vm-stats' put: { 
+		'full-gc-count' -> (fullGCCountAfter - fullGCCountBefore).
+		'full-gc-time' -> (fullGCTimeAfter - fullGCTimeBefore).
+		'incremental-gc-count' -> (incrementalGCCountAfter - incrementalGCCountBefore).
+		'incremental-gc-time' -> (incrementalGCTimeAfter - incrementalGCTimeBefore).
+	 } asDictionary.
 	
-	self reporters do: [ :aReporter | aReporter reportAll: smarkRunners previousRun: previousRun ].
+	outputFile := FileSystem workingDirectory / outputFileName.
+	outputFile
+		ensureDelete;
+		writeStreamDo: [ :stream | STON put: output asJsonOnStream: stream ].
 	
 	self exitSuccess 
 	
@@ -60,44 +90,4 @@ BenchmarkCommandLineHandler >> exitSuccess [
 BenchmarkCommandLineHandler >> isTesting [
 
 	^ testing ifNil: [ false ]
-]
-
-{ #category : #activation }
-BenchmarkCommandLineHandler >> iterations [
-
-	^ (self commandLine hasOption: 'iterations')
-		ifTrue: [ (self commandLine optionAt: 'iterations') asInteger ]
-		ifFalse: [ 1000 ]
-]
-
-{ #category : #activation }
-BenchmarkCommandLineHandler >> loadPreviousRun [
-
-	^ self commandLine
-		optionAt: 'previousRun'
-		ifPresent: [ :v | | fileReference |
-			fileReference := v asFileReference.
-			
-			fileReference exists 
-				ifTrue: [fileReference readStreamDo: [:s | STON fromStream: s]]
-				ifFalse: [ nil ]]
-		ifAbsent: [ nil ]
-]
-
-{ #category : #activation }
-BenchmarkCommandLineHandler >> reporters [
-
-	^ reporters ifNil: [ ^ { BenchmarkRunnerDefaultReporter new } ]
-]
-
-{ #category : #activation }
-BenchmarkCommandLineHandler >> validateParameters [
-	
-	(self commandLine hasArguments)
-		ifFalse: [ ^ self exitFailure: 'Missing regular expression for filtering packages' ].
-	
-	reporters := OrderedCollection new.
-	
-	AbstractBenchmarkCommandLineReporter allSubclasses 
-		do: [ :e | e configureFrom: self commandLine andAddTo: reporters ]
 ]
