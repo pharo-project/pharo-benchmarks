@@ -190,6 +190,186 @@ CodeLayoutBenchmarks >> branchManyOnFalseWithCompensation: aBoolean [
 	self nullMethod.
 	aBoolean ifFalse: [ self nullMethod ].
 	self nullMethod.
+		aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+		aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+		aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+		aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+		aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+		aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+		aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+		aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+		aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
 ]
 
 { #category : #benchmarking }
