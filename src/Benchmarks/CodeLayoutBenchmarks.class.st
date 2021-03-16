@@ -8,7 +8,14 @@ Class {
 CodeLayoutBenchmarks >> benchSequenceOfFalseConditionalBranches [
 
 	self problemSize timesRepeat: [
-		self branchManyOn: false ]
+		self branchManyOnFalse: false ]
+]
+
+{ #category : #benchmarking }
+CodeLayoutBenchmarks >> benchSequenceOfFalseConditionalWithBodyBranches [
+
+	self problemSize timesRepeat: [
+		self branchManyOnWithFalseBody: false ]
 ]
 
 { #category : #benchmarking }
@@ -19,10 +26,24 @@ CodeLayoutBenchmarks >> benchSequenceOfFalseConditionalWithCompensation [
 ]
 
 { #category : #benchmarking }
+CodeLayoutBenchmarks >> benchSequenceOfFalseFallthroughs [
+
+	self problemSize timesRepeat: [
+		self branchManyOn: false ]
+]
+
+{ #category : #benchmarking }
 CodeLayoutBenchmarks >> benchSequenceOfTrueConditionalBranches [
 
 	self problemSize timesRepeat: [
 		self branchManyOn: true ]
+]
+
+{ #category : #benchmarking }
+CodeLayoutBenchmarks >> benchSequenceOfTrueFallThroughs [
+
+	self problemSize timesRepeat: [
+		self branchManyOnFalse: true ]
 ]
 
 { #category : #benchmarking }
@@ -38,6 +59,22 @@ CodeLayoutBenchmarks >> branchManyOn: aBoolean [
 	aBoolean ifTrue: [ self nullMethod ].
 	aBoolean ifTrue: [ self nullMethod ].
 	aBoolean ifTrue: [ self nullMethod ].
+]
+
+{ #category : #benchmarking }
+CodeLayoutBenchmarks >> branchManyOnFalse: aBoolean [
+
+	aBoolean ifFalse: [ self nullMethod ].
+	aBoolean ifFalse: [ self nullMethod ].
+	aBoolean ifFalse: [ self nullMethod ].
+	aBoolean ifFalse: [ self nullMethod ].
+	aBoolean ifFalse: [ self nullMethod ].
+	aBoolean ifFalse: [ self nullMethod ].
+	aBoolean ifFalse: [ self nullMethod ].
+	aBoolean ifFalse: [ self nullMethod ].
+	aBoolean ifFalse: [ self nullMethod ].
+	aBoolean ifFalse: [ self nullMethod ].
+
 ]
 
 { #category : #benchmarking }
