@@ -12,13 +12,6 @@ CodeLayoutBenchmarks >> benchSequenceOfFalseConditionalBranches [
 ]
 
 { #category : #benchmarking }
-CodeLayoutBenchmarks >> benchSequenceOfFalseConditionalWithBodyBranches [
-
-	self problemSize timesRepeat: [
-		self branchManyOnWithFalseBody: false ]
-]
-
-{ #category : #benchmarking }
 CodeLayoutBenchmarks >> benchSequenceOfFalseConditionalWithCompensation [
 	"To be executed only with false branches, to make it comparable to the true branch"
 	self problemSize timesRepeat: [
