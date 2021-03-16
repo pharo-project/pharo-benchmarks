@@ -13,9 +13,9 @@ CodeLayoutBenchmarks >> benchSequenceOfFalseConditionalBranches [
 
 { #category : #benchmarking }
 CodeLayoutBenchmarks >> benchSequenceOfFalseConditionalWithCompensation [
-	"To be executed only with false branches, to make it comparable to the true branch"
+	"To be executed only with true branches, to make it comparable to the false branch"
 	self problemSize timesRepeat: [
-		self branchManyOnWithFallthroughBody: false ]
+		self branchManyOnFalseWithCompensation: true ]
 ]
 
 { #category : #benchmarking }
@@ -30,6 +30,13 @@ CodeLayoutBenchmarks >> benchSequenceOfTrueConditionalBranches [
 
 	self problemSize timesRepeat: [
 		self branchManyOn: true ]
+]
+
+{ #category : #benchmarking }
+CodeLayoutBenchmarks >> benchSequenceOfTrueConditionalWithCompensation [
+	"To be executed only with false branches, to make it comparable to the true branch"
+	self problemSize timesRepeat: [
+		self branchManyOnTrueWithCompensation: false ]
 ]
 
 { #category : #benchmarking }
@@ -71,6 +78,31 @@ CodeLayoutBenchmarks >> branchManyOnFalse: aBoolean [
 ]
 
 { #category : #benchmarking }
+CodeLayoutBenchmarks >> branchManyOnFalseWithCompensation: aBoolean [
+
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifFalse: [ self nullMethod ].
+	self nullMethod.
+]
+
+{ #category : #benchmarking }
 CodeLayoutBenchmarks >> branchManyOnIfTrueIfFalse: aBoolean [
 
 	aBoolean
@@ -103,6 +135,31 @@ CodeLayoutBenchmarks >> branchManyOnIfTrueIfFalse: aBoolean [
 	aBoolean
 		ifTrue: [ self nullMethod ]
 		ifFalse: [ self nullMethod ].
+]
+
+{ #category : #benchmarking }
+CodeLayoutBenchmarks >> branchManyOnTrueWithCompensation: aBoolean [
+
+	aBoolean ifTrue: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifTrue: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifTrue: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifTrue: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifTrue: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifTrue: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifTrue: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifTrue: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifTrue: [ self nullMethod ].
+	self nullMethod.
+	aBoolean ifTrue: [ self nullMethod ].
+	self nullMethod.
 ]
 
 { #category : #benchmarking }
