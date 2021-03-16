@@ -7,42 +7,42 @@ Class {
 { #category : #benchmarking }
 CodeLayoutBenchmarks >> benchSequenceOfFalseConditionalBranches [
 
-	self problemSize timesRepeat: [
+	1 to: self problemSize do: [ :i |
 		self branchManyOnFalse: false ]
 ]
 
 { #category : #benchmarking }
 CodeLayoutBenchmarks >> benchSequenceOfFalseConditionalWithCompensation [
 	"To be executed only with true branches, to make it comparable to the false branch"
-	self problemSize timesRepeat: [
+	1 to: self problemSize do: [ :i |
 		self branchManyOnFalseWithCompensation: true ]
 ]
 
 { #category : #benchmarking }
 CodeLayoutBenchmarks >> benchSequenceOfFalseFallthroughs [
 
-	self problemSize timesRepeat: [
+	1 to: self problemSize do: [ :i |
 		self branchManyOn: false ]
 ]
 
 { #category : #benchmarking }
 CodeLayoutBenchmarks >> benchSequenceOfTrueConditionalBranches [
 
-	self problemSize timesRepeat: [
+	1 to: self problemSize do: [ :i |
 		self branchManyOn: true ]
 ]
 
 { #category : #benchmarking }
 CodeLayoutBenchmarks >> benchSequenceOfTrueConditionalWithCompensation [
 	"To be executed only with false branches, to make it comparable to the true branch"
-	self problemSize timesRepeat: [
+	1 to: self problemSize do: [ :i |
 		self branchManyOnTrueWithCompensation: false ]
 ]
 
 { #category : #benchmarking }
 CodeLayoutBenchmarks >> benchSequenceOfTrueFallThroughs [
 
-	self problemSize timesRepeat: [
+	1 to: self problemSize do: [ :i |
 		self branchManyOnFalse: true ]
 ]
 
