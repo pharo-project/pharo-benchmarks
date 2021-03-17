@@ -61,6 +61,13 @@ CodeLayoutBenchmarks >> benchSmallFactorial [
 ]
 
 { #category : #benchmarking }
+CodeLayoutBenchmarks >> benchVeryLargeFactorial [
+
+	1 to: self problemSize do: [ :i |
+		self factorialOf: 1000 ]
+]
+
+{ #category : #benchmarking }
 CodeLayoutBenchmarks >> branchManyOn: aBoolean [
 
 	aBoolean ifTrue: [ self nullMethod ].
