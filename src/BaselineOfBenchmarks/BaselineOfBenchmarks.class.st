@@ -13,7 +13,7 @@ BaselineOfBenchmarks >> baseline: spec [
 		spec 
 			baseline: 'SMark' 
 			with: [ 
-				spec repository: 'github://guillep/SMark:cde155fc8318a1d2c2cd12caef072c35873eab92/repository' ].
+				spec repository: 'github://guillep/SMark/repository' ].
 
 		spec 
 			baseline: 'NeoCSV' 
