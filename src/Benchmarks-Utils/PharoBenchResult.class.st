@@ -6,7 +6,9 @@ Class {
 		'fullGCCount',
 		'fullGCTime',
 		'incrementalGCCount',
-		'incrementalGCTime'
+		'incrementalGCTime',
+		'compilationTime',
+		'compilationCount'
 	],
 	#category : #'Benchmarks-Utils-Core'
 }
@@ -20,13 +22,39 @@ PharoBenchResult >> addMeasurement: anInteger [
 { #category : #conversion }
 PharoBenchResult >> asDictionary [
 	
-	^ Dictionary new
+	^ OrderedDictionary new
 		at: 'measurements' put: measurements asArray;
 		at: 'full-gc-count' put: fullGCCount;
 		at: 'full-gc-time' put: fullGCTime;
 		at: 'incremental-gc-count' put: incrementalGCCount;
 		at: 'incremental-gc-time' put: incrementalGCTime;
+		at: 'compilation-time' put: compilationTime;
+		at: 'compilation-count' put: compilationCount;
 		yourself
+]
+
+{ #category : #accessing }
+PharoBenchResult >> compilationCount [
+
+	^ compilationCount
+]
+
+{ #category : #accessing }
+PharoBenchResult >> compilationCount: anObject [
+
+	compilationCount := anObject
+]
+
+{ #category : #accessing }
+PharoBenchResult >> compilationTime [
+
+	^ compilationTime
+]
+
+{ #category : #accessing }
+PharoBenchResult >> compilationTime: anObject [
+
+	compilationTime := anObject
 ]
 
 { #category : #accessing }

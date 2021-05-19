@@ -9,10 +9,26 @@ Class {
 		'incrementalGCCountAfter',
 		'incrementalGCTimeAfter',
 		'fullGCCountAfter',
-		'fullGCTimeAfter'
+		'fullGCTimeAfter',
+		'compilationCountBefore',
+		'compilationTimeBefore',
+		'compilationCountAfter',
+		'compilationTimeAfter'
 	],
 	#category : #'Benchmarks-Utils-Core'
 }
+
+{ #category : #statistics }
+PharoSMarkRunner >> compilationCount [
+	
+	^ compilationCountAfter - compilationCountBefore
+]
+
+{ #category : #statistics }
+PharoSMarkRunner >> compilationTime [
+	
+	^ compilationTimeAfter - compilationTimeBefore
+]
 
 { #category : #execution }
 PharoSMarkRunner >> currentResult [
@@ -53,12 +69,16 @@ PharoSMarkRunner >> postBenchmark [
 	incrementalGCTimeAfter := Smalltalk vm totalIncrementalGCTime.
 	fullGCCountAfter := Smalltalk vm fullGCCount.
 	fullGCTimeAfter := Smalltalk vm totalFullGCTime.
+	compilationCountAfter := Smalltalk vm compiledMethodsCount + Smalltalk vm compiledBlocksCount.
+	compilationTimeAfter := Smalltalk vm totalJITCompileTime.
 	
 	self currentResult
 		fullGCCount: self fullGCCount;
 		fullGCTime: self fullGCTime;
 		incrementalGCCount: self incrementalGCCount;
-		incrementalGCTime: self incrementalGCTime.
+		incrementalGCTime: self incrementalGCTime;
+		compilationCount: self compilationCount;
+		compilationTime: self compilationTime.
 
 	super postBenchmark.
 ]
@@ -71,6 +91,8 @@ PharoSMarkRunner >> preBenchmark [
 	incrementalGCTimeBefore := Smalltalk vm totalIncrementalGCTime.
 	fullGCCountBefore := Smalltalk vm fullGCCount.
 	fullGCTimeBefore := Smalltalk vm totalFullGCTime.
+	compilationCountBefore := Smalltalk vm compiledMethodsCount + Smalltalk vm compiledBlocksCount.
+	compilationTimeBefore := Smalltalk vm totalJITCompileTime.
 ]
 
 { #category : #execution }
