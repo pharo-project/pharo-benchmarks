@@ -65,9 +65,7 @@ BenchmarkProblemSizeCalculator class >> full [
 { #category : #'as yet unclassified' }
 BenchmarkProblemSizeCalculator class >> outputFullTo: aFileReference [
 
-	self full
-		compute;
-		writeTo: aFileReference asFileReference
+	self full writeTo: aFileReference asFileReference
 ]
 
 { #category : #accessing }
