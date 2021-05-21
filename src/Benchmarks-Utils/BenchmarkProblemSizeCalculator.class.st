@@ -90,7 +90,7 @@ BenchmarkProblemSizeCalculator >> compute [
 	| results |
 	results := OrderedCollection new.
 	benchmarks do: [ :e | | problemSize lastTimeToRun |
-		
+		Stdio stdout nextPutAll: 'Computing problem size for: ', e name; crlf.
 		[problemSize := 1.
 		lastTimeToRun := 0.
 		[ lastTimeToRun < minimalTimeToRun ] whileTrue: [
